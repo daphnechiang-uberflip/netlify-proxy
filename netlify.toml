@@ -1,12 +1,38 @@
+# [[redirects]]
+#   from = "https://uberflip-proxy.netlify.app/hub"
+#   to = "https://read.uberflip.com/hub"
+#   status = 200
+#   force = true
+#   headers = {X-Original-Host = "uberflip-proxy.netlify.app", X-Forwarded-Host = "uberflip-proxy.netlify.app", X-Netlify-Hostname = "uberflip-proxy.netlify.app" }
+# [[redirects]]
+#   from = "https://uberflip-proxy.netlify.app/hub/*"
+#   to = "https://read.uberflip.com/hub/:splat"
+#   status = 200
+#   force = true
+#   headers = {X-Original-Host = "uberflip-proxy.netlify.app", X-Forwarded-Host = "uberflip-proxy.netlify.app", X-Netlify-Hostname = "uberflip-proxy.netlify.app" }
+# 
+[[edge_functions]]
+  path = "/hub/*"
+  function = "uberflip-reverse-proxy"
+
+[[edge_functions]]
+  path = "/hub/"
+  function = "uberflip-reverse-proxy"
+
+# [context.deploy-preview]
+#   CONTEXT = "staging"
+# 
+# [context.branch-deploy]
+#   CONTEXT = "staging"
+
+[[headers]]
+  for = "/*"
+[headers.values]
+  Referrer-Policy = "strict-origin-when-cross-origin"
+
 [[redirects]]
-  from = "https://uberflip-proxy.netlify.app/hub"
-  to = "https://read.uberflip.com/hub"
-  status = 200
+  from = "/products/autodesk-plangrid-build"
+  to = "/products/plangrid/"
+  status = 301
   force = true
-  headers = {X-Original-Host = "uberflip-proxy.netlify.app", X-Forwarded-Host = "uberflip-proxy.netlify.app", X-Netlify-Hostname = "uberflip-proxy.netlify.app" }
-[[redirects]]
-  from = "https://uberflip-proxy.netlify.app/hub/*"
-  to = "https://read.uberflip.com/hub/:splat"
-  status = 200
-  force = true
-  headers = {X-Original-Host = "uberflip-proxy.netlify.app", X-Forwarded-Host = "uberflip-proxy.netlify.app", X-Netlify-Hostname = "uberflip-proxy.netlify.app" }
+  query = { pgr = ":pgr" }
