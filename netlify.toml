@@ -1,0 +1,12 @@
+# [[redirects]]
+#   from = "https://construction.trimble.com/nl/resources"
+#   to = "https://read.uberflip.com/nl/resources"
+#   status = 200
+#   force = true
+#   headers = {X-Original-Host = "construction.trimble.com", X-Forwarded-Host = "construction.trimble.com", X-Netlify-Hostname = "construction.trimble.com" }
+# [[redirects]]
+#   from = "https://construction.trimble.com/nl/resources/*"
+#   to = "https://read.uberflip.com/nl/resources/:splat"
+#   status = 200
+#   force = true
+#   headers = {X-Original-Host = "construction.trimble.com", X-Forwarded-Host = "construction.trimble.com", X-Netlify-Hostname = "construction.trimble.com" }
