@@ -1,6 +1,6 @@
 // import uberflipRedirects from '../../src/variables/uberflip-redirects.json' assert { type: 'json' }
 
-const pathRegex = /^.*\/hub\/?/
+const pathRegex = /^.*\/hub?/
 const proxyUrl = 'https://read.uberflip.com/hub'
 // const locale = Deno.env.get('GATSBY_LOCALE')
 const hostHeaders = {
