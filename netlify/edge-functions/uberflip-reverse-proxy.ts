@@ -1,7 +1,7 @@
 // import uberflipRedirects from '../../src/variables/uberflip-redirects.json' assert { type: 'json' }
 
 const pathRegex = /^.*\/hub?/
-const proxyUrl = 'https://read.uberflip-dev.com/hub'
+const proxyUrl = 'http://read.uberflip-dev.com/hub'
 // const locale = Deno.env.get('GATSBY_LOCALE')
 const hostHeaders = {
   us: 'uberflip-proxy.netlify.app',
@@ -49,6 +49,11 @@ export default async (request: Request) => {
         'X-Forwarded-Host': hostHeader,
         'X-Original-Host': hostHeader,
         'X-Netlify-Hostname': hostHeader,
+        'X-Forwarded-For': request.headers.get('X-Forwarded-For') || request.headers.get('X-Real-IP') || request.ip || '',
+        'X-Forwarded-Proto': request.headers.get('X-Forwarded-Proto') || 'http',
+        'X-Forwarded-Port': request.headers.get('X-Forwarded-Port') || '80',
+        'Connection': 'keep-alive',
+        // 'User-Agent': request.headers.get('User-Agent'),
       },
       redirect: request.redirect,
       body: request.body,
