@@ -49,17 +49,22 @@ export default async (request: Request) => {
         'X-Forwarded-Host': hostHeader,
         'X-Original-Host': hostHeader,
         'X-Netlify-Hostname': hostHeader,
-        'X-Forwarded-For': request.headers.get('X-Forwarded-For') || request.headers.get('X-Real-IP') || request.ip || '',
-        'X-Forwarded-Proto': request.headers.get('X-Forwarded-Proto') || 'http',
-        'X-Forwarded-Port': request.headers.get('X-Forwarded-Port') || '80',
-        'Connection': 'keep-alive',
-        // 'User-Agent': request.headers.get('User-Agent'),
       },
       redirect: request.redirect,
       body: request.body,
     })
 
-    const response = await fetch(proxyRequest)
+    const response = await fetch(proxyRequest);
+
+    console.log('response', response);
+
+    if (response.status === 301 || response.status === 302) {
+        // Handle redirection
+        const location = response.headers.get('Location');
+        if (location) {
+          return Response.redirect(location, response.status);
+        }
+      }
 
     return response
   }
