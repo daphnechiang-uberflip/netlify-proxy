@@ -56,52 +56,16 @@ export default async (request: Request) => {
 
     const response = await fetch(proxyRequest);
 
-    console.log('original response', response);
+    console.log('response', response);
 
     if (response.status === 301 || response.status === 302) {
-      // Handle redirection
-      const location = response.headers.get('Location');
-      if (location) {
-        return Response.redirect(location, response.status);
-      }
-    }
-
-    // Clone the response so we can modify headers
-    const modifiedHeaders = new Headers(response.headers)
-
-    // Handle Set-Cookie manually
-    const setCookieHeader = response.headers.get('Set-Cookie')
-    console.log('setCookieHeader', setCookieHeader);
-
-    if (setCookieHeader) {
-      const cookies = setCookieHeader.split(',') // Handle multiple cookies if comma-separated
-      const modifiedCookies = cookies.map(cookie => {
-        if (cookie.trim().startsWith('_MGZ_')) {
-          // Modify the SameSite attribute only for _MGZ_
-          if (cookie.includes('SameSite=')) {
-            return cookie.replace(/SameSite=[a-zA-Z]+/, 'SameSite=None;')
-          } else {
-            return `${cookie};  path=/; secure; HttpOnly; SameSite=None;`
-          }
+        // Handle redirection
+        const location = response.headers.get('Location');
+        if (location) {
+          return Response.redirect(location, response.status);
         }
+      }
 
-        console.log('new cookie', cookie);
-        return cookie
-      })
-
-      // Replace Set-Cookie header with modified cookies
-      modifiedHeaders.delete('Set-Cookie')
-      modifiedCookies.forEach(modifiedCookie => {
-        modifiedHeaders.append('Set-Cookie', modifiedCookie.trim())
-      })
-    }
-
-    console.log('response with modified headers', response);
-
-    // Return the modified response for non-redirect cases
-    return new Response(response.body, {
-      ...response,
-      headers: modifiedHeaders,
-    })
+    return response
   }
 }
