@@ -41,6 +41,10 @@ export default async (request: Request) => {
     let path = url.replace(pathRegex, proxyUrl)
     path = `${path}${qs}`
 
+    // print cookies
+    const cookies = request.headers.get('Cookie')
+    console.log('cookies', cookies)
+
     const proxyRequest = new Request(path, {
       ...request,
       method: request.method,
