@@ -49,6 +49,7 @@ export default async (request: Request) => {
         'X-Forwarded-Host': hostHeader,
         'X-Original-Host': hostHeader,
         'X-Netlify-Hostname': hostHeader,
+        'Cookie': request.headers.get('Cookie') || '', // Forward cookies
       },
       redirect: 'manual',
       body: request.body,
